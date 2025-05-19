@@ -2,7 +2,8 @@ name: scarf
 title: Scarf
 script: src/index.tsx
 description: ''
-scopes: []
+scopes:
+  - site:script:inject
 blocks:
   - id: scarf
     title: Scarf
