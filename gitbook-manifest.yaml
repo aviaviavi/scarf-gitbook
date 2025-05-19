@@ -1,0 +1,12 @@
+name: scarf
+title: Scarf
+script: src/index.tsx
+description: ''
+scopes: []
+blocks:
+  - id: scarf
+    title: Scarf
+    description: My GitBook Integration
+visibility: private
+organization: EpwE1GTXs84xxoazQUp5
+secrets: {}
