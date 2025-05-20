@@ -1,55 +1,40 @@
 import {
     createIntegration,
-    createComponent,
-    FetchEventCallback,
+    FetchPublishScriptEventCallback,
     RuntimeContext,
-  } from "@gitbook/runtime";
+    RuntimeEnvironment,
+} from "@gitbook/runtime";
 
-  type IntegrationContext = {} & RuntimeContext;
-  type IntegrationBlockProps = {};
-  type IntegrationBlockState = { message: string };
-  type IntegrationAction = { action: "click" };
+import script from './scarf-script.js';
 
-  const handleFetchEvent: FetchEventCallback<IntegrationContext> = async (
-    request,
-    context
-  ) => {
-    const { api } = context;
-    const user = api.user.getAuthenticatedUser();
+type ScarfRuntimeContext = RuntimeContext<
+    RuntimeEnvironment<
+        {},
+        {
+            pixel_id?: string;
+        }
+    >
+>;
 
-    return new Response(JSON.stringify(user));
-  };
+export const handleFetchEvent: FetchPublishScriptEventCallback = async (
+    event,
+    { environment }: ScarfRuntimeContext,
+) => {
+    const pixelId = environment.siteInstallation?.configuration?.pixel_id;
 
-  const exampleBlock = createComponent<
-     IntegrationBlockProps,
-     IntegrationBlockState,
-     IntegrationAction,
-     IntegrationContext
-  >({
-    componentId: "scarf",
-    initialState: (props) => {
-      return {
-        message: "Click Me",
-      };
-    },
-    action: async (element, action, context) => {
-      switch (action.action) {
-        case "click":
-          console.log("Button Clicked");
-          return {};
-      }
-    },
-    render: async (element, context) => {
-      return (
-        <block>
-          <button label={element.state.message} onPress={{ action: "click" }} />
-        </block>
-      );
-    },
-  });
+    if (!pixelId) {
+        throw new Error(`The Scarf pixel ID is missing from the configuration.`);
+    }
 
-  export default createIntegration({
+    return new Response((script as string).replace('[PIXEL_ID]', pixelId), {
+        headers: {
+            'Content-Type': 'application/javascript',
+            'Cache-Control': 'max-age=604800',
+        },
+    });
+};
+
+
+export default createIntegration({
     fetch: handleFetchEvent,
-    components: [exampleBlock],
-    events: {},
-  });
+});
