@@ -8,7 +8,7 @@ externalLinks:
     - label: Website
       url: https://about.scarf.sh/
 visibility: public
-script: ./src/index.tsx
+script: ./src/index.ts
 # The following scope(s) are available only to GitBook Staff
 # See https://developer.gitbook.com/integrations/configurations#scopes
 scopes:

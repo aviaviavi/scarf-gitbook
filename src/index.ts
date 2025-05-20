@@ -11,7 +11,7 @@ type ScarfRuntimeContext = RuntimeContext<
     RuntimeEnvironment<
         {},
         {
-            pixel_id?: string;
+            pixel_id?: string
         }
     >
 >;
@@ -35,6 +35,7 @@ export const handleFetchEvent: FetchPublishScriptEventCallback = async (
 };
 
 
-export default createIntegration({
+export default createIntegration<ScarfRuntimeContext>({
     fetch: handleFetchEvent,
+    fetch_published_script: handleFetchEvent,
 });
