@@ -26,10 +26,12 @@ export const handleFetchEvent: FetchPublishScriptEventCallback = async (
     //     throw new Error(`The Scarf pixel ID is missing from the configuration.`);
     // }
 
-    // return new Response((script as string).replace('[PIXEL_ID]', pixelId), {
-    //     headers: {
-    //         'Content-Type': 'application/javascript',
-    //         'Cache-Control': 'max-age=604800',
+    // console.log(script)
+
+  //   return new Response((script as string).replace('[PIXEL_ID]', 'test'), {
+  //       headers: {
+  //           'Content-Type': 'application/javascript',
+  //           'Cache-Control': 'max-age=604800',
   //     },
   // });
   return new Response('console.log("hello world")', {
@@ -37,7 +39,7 @@ export const handleFetchEvent: FetchPublishScriptEventCallback = async (
             'Content-Type': 'application/javascript',
             'Cache-Control': 'max-age=604800',
         },
-  })
+  });
 };
 
 
