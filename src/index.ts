@@ -28,7 +28,7 @@ export const handleFetchEvent: FetchPublishScriptEventCallback = async (
 
     console.log(script)
 
-    return new Response((script as string).replace('[PIXEL_ID]', 'test'), {
+    return new Response((script as string).replace('[PIXEL_ID]', pixelId), {
         headers: {
             'Content-Type': 'application/javascript',
             'Cache-Control': 'max-age=604800',
